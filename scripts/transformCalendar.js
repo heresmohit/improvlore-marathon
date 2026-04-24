@@ -1,5 +1,5 @@
 const JAM_TITLES = [
-  "make friends with stage",
+  "make friends with the stage",
   "whimsical wednesday",
   "make an improv show",
   "what is yes, and",
