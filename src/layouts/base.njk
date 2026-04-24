@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{ Events }}</title>
+  <link rel="stylesheet" href="/assets/events.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+   
+
+</div>
+  <main>
+      {{ content | safe }}
+  </main>
+
+
+
+  <footer>
+    <details class="social-fab">
+      <summary class="social-fab-toggle" aria-label="Open social links">
+        <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
+      </summary>
+      <div class="social-fab-menu">
+        <a class="social-icon" href="{{ social.whatsapp }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp">
+        </a>
+        <a class="social-icon" href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
+        </a>
+        <a class="social-icon" href="{{ social.youtube }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube">
+        </a>
+        <a class="social-icon" href="{{ social.gmail }}" target="_blank" rel="noopener noreferrer" aria-label="Email">
+          <img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Email">
+        </a>
+      </div>
+    </details>
+  </footer>
+
+   <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+
+</body>
+</html>

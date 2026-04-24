@@ -1,0 +1,65 @@
+---
+layout: base.njk
+title: All Work No Play - Individual Events
+---
+
+<div class="events-root">
+  <a class="back-link" href="/" aria-label="Back to landing page">← Back</a>
+  <section class="site-part site-part-events" id="schedule">
+    <section class="events-section-header">
+      <p class="events-section-kicker">Lineup</p>
+      <h1 class="events-section-title">Individual Events</h1>
+    </section>
+
+    <div class="timeline">
+
+    {% for ev in events %}
+    {% if ev.tags and "UC" in ev.tags %}
+
+      {% set img = null %}
+      {% if ev.thumbnails and ev.thumbnails.length %}
+        {% set img = ev.thumbnails[0].url %}
+      {% elif ev.image_url %}
+        {% set img = ev.image_url %}
+      {% endif %}
+
+      <div class="timeline-item">
+
+        {% if ev.time %}
+        <div class="timeline-time">
+          {{ ev.time }}
+        </div>
+        {% endif %}
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-card">
+
+          {% if img %}
+          <div class="event-image">
+            <a href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">
+              <img src="{{ img }}" alt="{{ ev.title }}">
+            </a>
+          </div>
+          {% endif %}
+
+          <h2 class="event-title">{{ ev.title }}</h2>
+          {% if ev.excerpt or ev.description %}
+          <p class="event-excerpt">{{ ev.excerpt or ev.description }}</p>
+          {% endif %}
+
+          <div class="event-buttons">
+            <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
+            <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank">Learn More</a>
+          </div>
+
+        </div>
+
+      </div>
+
+    {% endif %}
+    {% endfor %}
+
+    </div>
+  </section>
+</div>

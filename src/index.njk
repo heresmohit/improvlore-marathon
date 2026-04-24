@@ -1,0 +1,261 @@
+---
+layout: base.njk
+title: All Play No Work – Improvlore Marathon
+---
+
+<div class="events-root">
+  <section class="site-part site-part-intro">
+
+    {# 1. COUNTDOWN #}
+    <section class="countdown" aria-label="Countdown to event">
+      <div class="countdown-meta">
+        <span>1st May 2026</span>
+        <span class="countdown-meta-sep">·</span>
+        <span>12 Hours</span>
+        <span class="countdown-meta-sep">·</span>
+        <span>Starting 12 Noon</span>
+      </div>
+      <p class="countdown-label">Countdown to showtime</p>
+      <div class="countdown-grid" data-countdown data-target="2026-05-01T12:00:00+05:30">
+        <article class="countdown-item">
+          <p class="countdown-value" data-days>--</p>
+          <p class="countdown-unit">Days</p>
+        </article>
+        <article class="countdown-item">
+          <p class="countdown-value" data-hours>--</p>
+          <p class="countdown-unit">Hours</p>
+        </article>
+        <article class="countdown-item">
+          <p class="countdown-value" data-minutes>--</p>
+          <p class="countdown-unit">Minutes</p>
+        </article>
+        <article class="countdown-item">
+          <p class="countdown-value" data-seconds>--</p>
+          <p class="countdown-unit">Seconds</p>
+        </article>
+      </div>
+    </section>
+
+    {# 2 + 3. POSTER and MARATHON INFO — side by side on desktop #}
+    <div class="poster-hero-split">
+
+      <section class="feature-poster" aria-label="All Play No Work Poster">
+        <img src="/assets/apnw-c.png" alt="All Play No Work event poster">
+      </section>
+
+      <section class="hero" aria-label="About the marathon">
+        <p class="hero-kicker">12-Hour Marathon Event · 1st May 2026</p>
+        <h1 class="hero-title">All Play No Work</h1>
+        <p class="hero-subtitle">
+          A 12-hour improv marathon that invites you to step away from everything that feels like work and lean into something playful. Packed with shows and jams — watch from the front row, or jump in and play.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://pages.razorpay.com/improvathon" target="_blank" rel="noopener noreferrer">Buy Day Pass</a>
+          <a class="btn btn-ghost" href="https://underline.center/t/all-play-no-work-12-hour-improv-marathon-by-improv-lore/764" target="_blank" rel="noopener noreferrer">Read details about marathon</a>
+        </div>
+      </section>
+
+    </div>
+
+    {# 4. NEW TO IMPROV + IMPROVLORE — combined #}
+    <section class="about-improvlore" aria-label="About Improvlore and newcomers">
+      <p class="about-copy">
+        <strong>If you are new to improv</strong> — the jams gently guide you into spontaneous storytelling. If you prefer watching, expect sharp performers stretching imagination in ways that feel like magic. All are welcome.
+      </p>
+      <p class="about-copy">
+        <strong>Improvlore</strong> is a Bangalore-based community-theatre troupe focused on unscripted stagecraft, playful collaboration, and weekly jams and workshops.
+      </p>
+      <div class="about-links">
+        <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Visit Improvlore on Instagram</a>
+      </div>
+    </section>
+
+    {# 5. EVENTS CAROUSEL #}
+    <section class="carousel-section" aria-label="Event lineup preview">
+      <div class="carousel-header">
+        <div>
+          <p class="section-kicker">Lineup</p>
+          <h2 class="carousel-title">Events across the day</h2>
+        </div>
+      </div>
+      <div class="carousel-layout">
+
+        <div class="carousel-track-wrapper">
+          <div class="carousel-track" data-carousel>
+            {% for ev in events %}
+            {% if ev.tags and "UC" in ev.tags %}
+            {% set img = null %}
+            {% if ev.thumbnails and ev.thumbnails.length %}
+              {% set img = ev.thumbnails[0].url %}
+            {% elif ev.image_url %}
+              {% set img = ev.image_url %}
+            {% endif %}
+            <article class="carousel-card">
+              {% if img %}
+              <div class="carousel-card-image">
+                <a href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">
+                  <img src="{{ img }}" alt="{{ ev.title }}" loading="lazy">
+                </a>
+              </div>
+              {% endif %}
+              <div class="carousel-card-body">
+                {% if ev.time %}<p class="carousel-card-time">{{ ev.time }}</p>{% endif %}
+                <h3 class="carousel-card-title">{{ ev.title }}</h3>
+                {% if ev.excerpt %}<p class="carousel-card-excerpt">{{ ev.excerpt }}</p>{% endif %}
+                <div class="event-buttons">
+                  <a class="btn btn-primary" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Buy Ticket</a>
+                  <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">Learn More</a>
+                </div>
+              </div>
+            </article>
+            {% endif %}
+            {% endfor %}
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-btn" data-carousel-prev aria-label="Previous event">&#8249;</button>
+            <div class="carousel-dots" data-carousel-dots></div>
+            <button class="carousel-btn" data-carousel-next aria-label="Next event">&#8250;</button>
+          </div>
+        </div>
+
+        <aside class="carousel-sidebar">
+          <p class="carousel-sidebar-title">All events</p>
+          <ul class="carousel-sidebar-list">
+            {% for ev in events %}
+            {% if ev.tags and "UC" in ev.tags %}
+            <li class="carousel-sidebar-item" data-carousel-sidebar-item>
+              {% if ev.time %}<div class="carousel-sidebar-item-time">{{ ev.time }}</div>{% endif %}
+              <div class="carousel-sidebar-item-name">{{ ev.title }}</div>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          <div class="carousel-sidebar-footer">
+            <a class="btn btn-ghost carousel-sidebar-cta" href="/events/">View full lineup &#8594;</a>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    {# 6. VENUE + MAP #}
+    <section class="venue-section" aria-label="Venue info">
+      <div class="venue-info">
+        <p class="section-kicker">Venue</p>
+        <h2 class="venue-name">Underline Center</h2>
+        <p class="venue-address">Indiranagar, Bangalore</p>
+        <a class="btn btn-ghost venue-map-btn" href="https://maps.app.goo.gl/tCm13hsE2Dn1TxCG9" target="_blank" rel="noopener noreferrer">Open in Maps ↗</a>
+      </div>
+      <div class="venue-map">
+        <iframe
+          src="https://maps.google.com/maps?q=Underline+Center,+Indiranagar,+Bangalore&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          title="Underline Center on Google Maps"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
+
+  </section>
+</div>
+
+<script>
+(function () {
+  // Countdown
+  var countdownRoot = document.querySelector('[data-countdown]');
+  if (countdownRoot) {
+    var target = new Date(countdownRoot.getAttribute('data-target'));
+    var daysEl = countdownRoot.querySelector('[data-days]');
+    var hoursEl = countdownRoot.querySelector('[data-hours]');
+    var minutesEl = countdownRoot.querySelector('[data-minutes]');
+    var secondsEl = countdownRoot.querySelector('[data-seconds]');
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff <= 0) {
+        [daysEl, hoursEl, minutesEl, secondsEl].forEach(function(el) { el.textContent = '00'; });
+        return;
+      }
+      var s = Math.floor(diff / 1000);
+      daysEl.textContent = pad(Math.floor(s / 86400));
+      hoursEl.textContent = pad(Math.floor((s % 86400) / 3600));
+      minutesEl.textContent = pad(Math.floor((s % 3600) / 60));
+      secondsEl.textContent = pad(s % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  // Carousel
+  var wrapper = document.querySelector('.carousel-track-wrapper');
+  var track = document.querySelector('[data-carousel]');
+  if (!wrapper || !track) return;
+
+  var cards = Array.prototype.slice.call(track.querySelectorAll('.carousel-card'));
+  var total = cards.length;
+  if (!total) return;
+
+  var dotsContainer = document.querySelector('[data-carousel-dots]');
+  var prevBtn = document.querySelector('[data-carousel-prev]');
+  var nextBtn = document.querySelector('[data-carousel-next]');
+  var sidebarItems = Array.prototype.slice.call(document.querySelectorAll('[data-carousel-sidebar-item]'));
+
+  var current = 0;
+  var timer = null;
+  var dots = [];
+
+  // Set each card's pixel width equal to the wrapper so translateX works reliably
+  function sizeCards() {
+    var w = wrapper.offsetWidth;
+    cards.forEach(function(card) { card.style.width = w + 'px'; });
+  }
+  sizeCards();
+  window.addEventListener('resize', function() {
+    sizeCards();
+    // Re-apply transform without animation during resize
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(-' + (current * wrapper.offsetWidth) + 'px)';
+    setTimeout(function() { track.style.transition = ''; }, 50);
+  });
+
+  // Build dots
+  for (var i = 0; i < total; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    (function(idx) {
+      dot.addEventListener('click', function() { goTo(idx); });
+    })(i);
+    if (dotsContainer) dotsContainer.appendChild(dot);
+    dots.push(dot);
+  }
+
+  if (sidebarItems.length) sidebarItems[0].classList.add('active');
+
+  function goTo(n) {
+    current = ((n % total) + total) % total;
+    track.style.transform = 'translateX(-' + (current * wrapper.offsetWidth) + 'px)';
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+    sidebarItems.forEach(function(item, i) { item.classList.toggle('active', i === current); });
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(function() { goTo(current + 1); }, 4000);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goTo(current + 1); });
+
+  sidebarItems.forEach(function(item, i) {
+    item.addEventListener('click', function() { goTo(i); });
+  });
+
+  wrapper.addEventListener('mouseenter', function() { clearInterval(timer); });
+  wrapper.addEventListener('mouseleave', resetTimer);
+
+  resetTimer();
+})();
+</script>
