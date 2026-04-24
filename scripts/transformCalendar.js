@@ -1,4 +1,36 @@
+const JAM_TITLES = [
+  "make friends with stage",
+  "whimsical wednesday",
+  "make an improv show",
+  "what is yes, and",
+];
+
+function getFormat(title) {
+  const lower = title.toLowerCase();
+  return JAM_TITLES.some(jam => lower.includes(jam)) ? "Jam" : "Show";
+}
+
 export async function transformCalendar(rawData) {
+
+  function cleanExcerpt(str) {
+    if (!str) return str;
+    return str
+      .replace(/<[^>]*>/g, '')           // strip HTML tags
+      .replace(/&hellip;/g, '…')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;|&apos;/g, "'")
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&mdash;/g, '—')
+      .replace(/&ndash;/g, '–')
+      .replace(/&lsquo;|&#8216;/g, '‘')
+      .replace(/&rsquo;|&#8217;/g, '’')
+      .replace(/&ldquo;|&#8220;/g, '“')
+      .replace(/&rdquo;|&#8221;/g, '”')
+      .trim();
+  }
 
   function toIST(timestr) {
     if (!timestr) return null;
@@ -38,7 +70,8 @@ export async function transformCalendar(rawData) {
     data_improv.push({
       title: topic.title,
       "fancy title": topic.fancy_title,
-      excerpt: topic.excerpt,
+      excerpt: cleanExcerpt(topic.excerpt),
+      format: getFormat(topic.title),
       full_content: first_post.raw,
       image_url: topic.image_url,
       thumbnails: topic.thumbnails,

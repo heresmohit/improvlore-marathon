@@ -11,6 +11,18 @@ title: All Work No Play - Individual Events
       <h1 class="events-section-title">Individual Events</h1>
     </section>
 
+    <div class="format-explainer">
+      <div class="format-card">
+        <p class="format-label">Show</p>
+        <p class="format-desc">Our improvisors take the stage and build scenes, stories, and characters live; All shaped by suggestions from the audience.(i.e you!)</p>
+      </div>
+      <div class="format-vs" aria-hidden="true">V/S</div>
+      <div class="format-card">
+        <p class="format-label">Jam</p>
+        <p class="format-desc">We open the floor for everyone! come curious, learn what improv is about, and try it out yourself in a warm, no-audience space.</p>
+      </div>
+    </div>
+
     <div class="timeline">
 
     {% for ev in events %}
@@ -43,6 +55,7 @@ title: All Work No Play - Individual Events
           </div>
           {% endif %}
 
+          {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
           <h2 class="event-title">{{ ev.title }}</h2>
           {% if ev.excerpt or ev.description %}
           <p class="event-excerpt">{{ ev.excerpt or ev.description }}</p>

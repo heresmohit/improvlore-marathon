@@ -47,7 +47,7 @@ title: All Play No Work – Improvlore Marathon
         <p class="hero-kicker">12-Hour Marathon Event · 1st May 2026</p>
         <h1 class="hero-title">All Play No Work</h1>
         <p class="hero-subtitle">
-          A 12-hour improv marathon that invites you to step away from everything that feels like work and lean into something playful. Packed with shows and jams — watch from the front row, or jump in and play.
+          A 12-hour improv marathon that invites you to step away from everything that feels like work and lean into something playful. Packed with shows and jams: watch from the front row, or jump in and play.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://pages.razorpay.com/improvathon" target="_blank" rel="noopener noreferrer">Buy Day Pass</a>
@@ -59,9 +59,7 @@ title: All Play No Work – Improvlore Marathon
 
     {# 4. NEW TO IMPROV + IMPROVLORE — combined #}
     <section class="about-improvlore" aria-label="About Improvlore and newcomers">
-      <p class="about-copy">
-        <strong>If you are new to improv</strong> — the jams gently guide you into spontaneous storytelling. If you prefer watching, expect sharp performers stretching imagination in ways that feel like magic. All are welcome.
-      </p>
+      
       <p class="about-copy">
         <strong>Improvlore</strong> is a Bangalore-based community-theatre troupe focused on unscripted stagecraft, playful collaboration, and weekly jams and workshops.
       </p>
@@ -96,10 +94,11 @@ title: All Play No Work – Improvlore Marathon
                 <a href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">
                   <img src="{{ img }}" alt="{{ ev.title }}" loading="lazy">
                 </a>
+                {% if ev.time %}<p class="carousel-card-time">{{ ev.time }}</p>{% endif %}
               </div>
               {% endif %}
               <div class="carousel-card-body">
-                {% if ev.time %}<p class="carousel-card-time">{{ ev.time }}</p>{% endif %}
+                {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
                 <h3 class="carousel-card-title">{{ ev.title }}</h3>
                 {% if ev.excerpt %}<p class="carousel-card-excerpt">{{ ev.excerpt }}</p>{% endif %}
                 <div class="event-buttons">
@@ -130,11 +129,11 @@ title: All Play No Work – Improvlore Marathon
             {% endif %}
             {% endfor %}
           </ul>
-          <div class="carousel-sidebar-footer">
-            <a class="btn btn-ghost carousel-sidebar-cta" href="/events/">View full lineup &#8594;</a>
-          </div>
         </aside>
 
+      </div>
+      <div class="carousel-lineup-cta">
+        <a class="btn btn-ghost" href="/events/">View full lineup &#8594;</a>
       </div>
     </section>
 
@@ -243,7 +242,7 @@ title: All Play No Work – Improvlore Marathon
 
   function resetTimer() {
     clearInterval(timer);
-    timer = setInterval(function() { goTo(current + 1); }, 4000);
+    timer = setInterval(function() { goTo(current + 1); }, 7000);
   }
 
   if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); });
