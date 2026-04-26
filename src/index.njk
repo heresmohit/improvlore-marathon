@@ -274,6 +274,17 @@ title: All Play No Work – Improvlore Marathon
   wrapper.addEventListener('mouseenter', function() { clearInterval(timer); });
   wrapper.addEventListener('mouseleave', resetTimer);
 
+  var touchStartX = 0;
+  wrapper.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+    clearInterval(timer);
+  }, { passive: true });
+  wrapper.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
+    resetTimer();
+  }, { passive: true });
+
   resetTimer();
 
   // Lazy map

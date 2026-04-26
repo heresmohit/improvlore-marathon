@@ -566,90 +566,80 @@ body::after {
 
 .timeline {
   max-width: 900px;
-  margin: 2rem auto;
+  margin: 1.5rem auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
 }
 
+/* vertical line runs through the dot column center:
+   time-col(90px) + gap(0.75rem) + half-dot-col(10px) */
 .timeline::before {
   content: "";
   position: absolute;
-  left: 124px;
+  left: calc(90px + 0.75rem + 10px);
   top: 0;
   bottom: 0;
   width: 2px;
   background: var(--border-soft);
-  box-shadow: 0 0 8px rgba(238, 90, 82, 0.2);
+  opacity: 0.45;
 }
 
 .timeline-item {
   display: grid;
-  grid-template-columns: 30px 1fr;
+  grid-template-columns: 90px 20px 1fr;
+  grid-template-rows: auto;
+  column-gap: 0.75rem;
   align-items: start;
-  margin-bottom: 2rem;
-  position: relative;
 }
 
 .timeline-time {
-  position: absolute;
-  top: -8px;
-  left: 12px;
-  font-size: 0.9rem;
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 0.82rem;
   font-weight: 900;
   color: #fff;
   letter-spacing: 0.5px;
   line-height: 1;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   background: var(--primary-red);
-  padding: 0.3rem 0.7rem;
-  /* parallelogram time badge */
+  padding: 0.28rem 0.6rem;
   clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  z-index: 5;
   white-space: nowrap;
+  text-align: center;
+  margin-top: 4px;
 }
 
 .timeline-dot {
+  grid-column: 2;
+  grid-row: 1;
   width: 14px;
   height: 14px;
   background: var(--primary-red);
-  /* diamond dot */
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  grid-column: 1;
-  margin-top: 6px;
   justify-self: center;
+  margin-top: 5px;
   z-index: 2;
   position: relative;
-  box-shadow: 0 0 12px rgba(238, 90, 82, 0.6);
+  box-shadow: 0 0 10px rgba(238, 90, 82, 0.55);
 }
 
 /* timeline cards — cut corner */
 .timeline-card {
   --card-pad: 1rem;
-  grid-column: 2;
+  grid-column: 3;
+  grid-row: 1;
   position: relative;
   background: var(--card-bg);
-  border: 2px solid var(--border-soft);
-  clip-path: polygon(0% 0%, calc(100% - 16px) 0%, 100% 16px, 100% 100%, 16px 100%, 0% calc(100% - 16px));
+  border: 1px solid var(--border-soft);
+  clip-path: polygon(0% 0%, calc(100% - 14px) 0%, 100% 14px, 100% 100%, 14px 100%, 0% calc(100% - 14px));
   padding: var(--card-pad);
-  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
-  backdrop-filter: blur(8px);
-  transform-origin: center;
-}
-
-.timeline-item:nth-child(odd) .timeline-card {
-  transform: rotate(-1.5deg) skewY(-0.5deg);
-}
-
-.timeline-item:nth-child(even) .timeline-card {
-  transform: rotate(1.5deg) skewY(0.5deg);
-}
-
-.timeline-item:nth-child(3n) .timeline-card {
-  transform: rotate(-2deg) skewY(-1deg);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .timeline-card:hover {
-  transform: translateY(-4px) rotate(0deg) skewY(0deg) !important;
-  box-shadow: 0 12px 32px rgba(255, 90, 95, 0.45), 0 0 20px rgba(255, 230, 109, 0.32);
+  box-shadow: 0 8px 24px rgba(255, 90, 95, 0.3), 0 0 14px rgba(255, 230, 109, 0.2);
   border-color: var(--primary-red);
 }
 
@@ -709,10 +699,47 @@ body::after {
 }
 
 .event-excerpt {
-  margin: 0 0 0.55rem;
+  margin: 0 0 0.45rem;
   color: var(--text-muted);
   font-size: 0.92rem;
-  line-height: 1.45;
+  line-height: 1.5;
+}
+
+.event-excerpt--expandable {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.event-excerpt--expandable.expanded {
+  display: block;
+  overflow: visible;
+}
+
+.event-excerpt-wrap {
+  margin: 0 0 0.45rem;
+}
+
+.event-excerpt-wrap .event-excerpt {
+  margin: 0;
+}
+
+.read-more-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0.1rem 0 0;
+  color: var(--primary-cyan);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: block;
+}
+
+.read-more-btn:hover {
+  color: var(--text-light);
 }
 
 /* -------------------------------------------------
@@ -864,40 +891,16 @@ body::after {
   }
 
   .timeline::before {
-    left: 59px;
+    left: calc(72px + 0.5rem + 10px);
   }
 
   .timeline-item {
-    grid-template-columns: 20px 1fr;
-    margin-bottom: 1.5rem;
-  }
-
-  .timeline-time {
-    font-size: 0.85rem;
-    font-weight: 700;
-  }
-
-  .timeline-dot {
-    width: 12px;
-    height: 12px;
-    margin-top: 4px;
+    grid-template-columns: 72px 20px 1fr;
+    column-gap: 0.5rem;
   }
 
   .timeline-card {
     --card-pad: 0.75rem;
-    margin-left: 5px;
-  }
-
-  .timeline-item:nth-child(odd) .timeline-card {
-    transform: rotate(-0.8deg) skewY(-0.3deg);
-  }
-
-  .timeline-item:nth-child(even) .timeline-card {
-    transform: rotate(0.8deg) skewY(0.3deg);
-  }
-
-  .timeline-item:nth-child(3n) .timeline-card {
-    transform: rotate(-1deg) skewY(-0.5deg);
   }
 
   .event-image {
@@ -971,42 +974,30 @@ body::after {
   }
 
   .timeline::before {
-    left: 45px;
+    left: calc(52px + 0.4rem + 10px);
   }
 
   .timeline-item {
-    grid-template-columns: 15px 1fr;
-    margin-bottom: 0.8rem;
-    gap: 0;
+    grid-template-columns: 52px 20px 1fr;
+    column-gap: 0.4rem;
   }
 
   .timeline-time {
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: 0.65rem;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    padding: 0.25rem 0.3rem;
   }
 
   .timeline-dot {
     width: 10px;
     height: 10px;
-    margin-top: 3px;
+    margin-top: 4px;
   }
 
   .timeline-card {
-    --card-pad: 0.4rem;
-    margin-left: 0;
-    border: 1px solid var(--border-soft);
-  }
-
-  .timeline-item:nth-child(odd) .timeline-card {
-    transform: rotate(-0.5deg) skewY(-0.2deg);
-  }
-
-  .timeline-item:nth-child(even) .timeline-card {
-    transform: rotate(0.5deg) skewY(0.2deg);
-  }
-
-  .timeline-item:nth-child(3n) .timeline-card {
-    transform: rotate(-0.6deg) skewY(-0.3deg);
+    --card-pad: 0.7rem;
   }
 
   .event-image {
@@ -1018,23 +1009,23 @@ body::after {
   }
 
   .event-title {
-    font-size: 0.9rem;
-    margin: 0 0 0.2rem 0;
+    font-size: 1rem;
+    margin: 0 0 0.25rem 0;
   }
 
   .event-excerpt {
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     margin: 0 0 0.35rem;
   }
 
   .event-buttons {
-    gap: 0.3rem;
-    margin-top: 0.2rem;
+    gap: 0.35rem;
+    margin-top: 0.3rem;
   }
 
   .btn {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.7rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
   }
 
   .about-links {

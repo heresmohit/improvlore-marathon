@@ -31,21 +31,36 @@ export async function transformCalendar(rawData) {
   function cleanExcerpt(str) {
     if (!str) return str;
     return str
-      .replace(/<[^>]*>/g, '')           // strip HTML tags
-      .replace(/&hellip;/g, '…')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
+      .replace(/<[^>]*>/g, "")
+      .replace(/&hellip;/g, "…")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
       .replace(/&quot;/g, '"')
       .replace(/&#39;|&apos;/g, "'")
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&mdash;/g, '—')
-      .replace(/&ndash;/g, '–')
-      .replace(/&lsquo;|&#8216;/g, '‘')
-      .replace(/&rsquo;|&#8217;/g, '’')
+      .replace(/&nbsp;/g, " ")
+      .replace(/&mdash;/g, "—")
+      .replace(/&ndash;/g, "–")
+      .replace(/&lsquo;|&#8216;/g, "'")
+      .replace(/&rsquo;|&#8217;/g, "'")
       .replace(/&ldquo;|&#8220;/g, '“')
       .replace(/&rdquo;|&#8221;/g, '”')
       .trim();
+  }
+
+  function firstParaFromCooked(cooked, excerpt) {
+    if (!cooked) return null;
+    // Strip image dimension artifacts (e.g. "1600×900 164 KB"), then strip HTML
+    const plain = cleanExcerpt(cooked.replace(/\d+[×x]\d+[^<]*/g, ""))
+      .replace(/\s*\n\s*\n\s*/g, "\n\n");
+    const paras = plain.split("\n\n").map(p => p.replace(/\s+/g, " ").trim()).filter(p => p.length > 30);
+    if (!paras.length) return null;
+    // Normalise both sides for comparison (strip punctuation/space differences)
+    const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const excerptNorm = norm((excerpt || "").slice(0, 40));
+    const match = paras.find(p => norm(p).startsWith(excerptNorm.slice(0, 20)));
+    // Fall back to longest paragraph
+    return match || paras.sort((a, b) => b.length - a.length)[0];
   }
 
   function toIST(timestr) {
@@ -84,13 +99,15 @@ export async function transformCalendar(rawData) {
     const first_post = detail.post_stream.posts[0];
     const ticketUrl = first_post.event?.url;
     const price = await fetchTicketPrice(ticketUrl);
+    const first_para = firstParaFromCooked(first_post.cooked, topic.excerpt);
 
     data_improv.push({
       title: topic.title,
       "fancy title": topic.fancy_title,
       excerpt: cleanExcerpt(topic.excerpt),
+      first_para,
       format: getFormat(topic.title),
-      full_content: first_post.raw,
+      full_content: first_post.cooked,
       image_url: topic.image_url,
       thumbnails: topic.thumbnails,
       event_starts_at: toIST(topic.event_starts_at),

@@ -57,8 +57,17 @@ title: All Play No Work – Lineup
 
           {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
           <h2 class="event-title">{{ ev.title }}</h2>
-          {% if ev.excerpt or ev.description %}
-          <p class="event-excerpt">{{ ev.excerpt or ev.description }}</p>
+          {% set desc = ev.excerpt or ev.description %}
+          {% set full = ev.first_para or desc %}
+          {% if desc %}
+          {% if full and full.length > desc.length %}
+          <div class="event-excerpt-wrap">
+            <p class="event-excerpt event-excerpt--expandable" data-short="{{ desc | escape }}" data-full="{{ full | escape }}">{{ desc }}</p>
+            <button class="read-more-btn" aria-expanded="false" onclick="toggleExcerpt(this)">↓</button>
+          </div>
+          {% else %}
+          <p class="event-excerpt">{{ desc }}</p>
+          {% endif %}
           {% endif %}
 
           <div class="event-buttons">
@@ -76,3 +85,21 @@ title: All Play No Work – Lineup
     </div>
   </section>
 </div>
+
+<script>
+function toggleExcerpt(btn) {
+  var p = btn.previousElementSibling;
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+  if (expanded) {
+    p.textContent = p.dataset.short;
+    p.classList.remove('expanded');
+    btn.textContent = '↓';
+    btn.setAttribute('aria-expanded', 'false');
+  } else {
+    p.textContent = p.dataset.full;
+    p.classList.add('expanded');
+    btn.textContent = '↑';
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+</script>
