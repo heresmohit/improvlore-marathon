@@ -15,7 +15,6 @@ title: All Play No Work – Improvlore Marathon
         <span class="countdown-meta-sep">·</span>
         <span>Starting 12 Noon</span>
       </div>
-      <p class="countdown-label">Countdown to Improvathon</p>
       <div class="countdown-grid" data-countdown data-target="2026-05-01T12:00:00+05:30">
         <article class="countdown-item">
           <p class="countdown-value" data-days>--</p>
@@ -44,10 +43,9 @@ title: All Play No Work – Improvlore Marathon
       </section>
 
       <section class="hero" aria-label="About the marathon">
-        <p class="hero-kicker">12-Hour Marathon Event · 1st May 2026</p>
         <h1 class="hero-title">All Play No Work</h1>
         <p class="hero-subtitle">
-          A 12-hour improv marathon that invites you to step away from everything that feels like work and lean into something playful. Packed with shows and jams: watch from the front row, or jump in and play.
+          A 12-hour improv marathon. Step away from everything that feels like work and into something playful.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://pages.razorpay.com/improvathon" target="_blank" rel="noopener noreferrer">Buy Day Pass</a>
@@ -59,12 +57,15 @@ title: All Play No Work – Improvlore Marathon
 
     {# 4. NEW TO IMPROV + IMPROVLORE — combined #}
     <section class="about-improvlore" aria-label="About Improvlore and newcomers">
-      
       <p class="about-copy">
-        <strong>Improvlore</strong> is a Bangalore-based community-theatre troupe focused on unscripted stagecraft, playful collaboration, and weekly jams and workshops.
+        <strong>Improvlore</strong> is a Bangalore-based improv troupe — weekly jams, workshops, and unscripted stagecraft.
+      </p>
+      <p class="newcomer-callout">
+        Never watched improv before? You'll fit right in. Shows are audience-shaped; jams are open to anyone who wants to try.
       </p>
       <div class="about-links">
-        <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Follow Improvlore on Instagram</a>
+        <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Follow us on Instagram</a>
+        <a href="mailto:improvlore@gmail.com">Write to us</a>
       </div>
     </section>
 
@@ -73,7 +74,6 @@ title: All Play No Work – Improvlore Marathon
       <div class="carousel-header">
         <div>
           <p class="section-kicker">Lineup</p>
-          <h2 class="carousel-title">Events across the day</h2>
         </div>
       </div>
       <div class="carousel-layout">
@@ -98,11 +98,14 @@ title: All Play No Work – Improvlore Marathon
               </div>
               {% endif %}
               <div class="carousel-card-body">
-                {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
+                <div class="carousel-card-meta">
+                  {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
+                  <span class="carousel-card-price">{% if ev.format == "Jam" %}Included in Jam Pass{% else %}Included in Show Pass{% endif %}</span>
+                </div>
                 <h3 class="carousel-card-title">{{ ev.title }}</h3>
                 {% if ev.excerpt %}<p class="carousel-card-excerpt">{{ ev.excerpt }}</p>{% endif %}
                 <div class="event-buttons">
-                  <a class="btn btn-primary" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Buy Ticket</a>
+                  <a class="btn btn-primary" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Buy Ticket{% if ev.price %} ({{ ev.price }}){% endif %}</a>
                   <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">Learn More</a>
                 </div>
               </div>
@@ -114,6 +117,13 @@ title: All Play No Work – Improvlore Marathon
             <button class="carousel-btn" data-carousel-prev aria-label="Previous event">&#8249;</button>
             <div class="carousel-dots" data-carousel-dots></div>
             <button class="carousel-btn" data-carousel-next aria-label="Next event">&#8250;</button>
+          </div>
+          <div class="carousel-mobile-pills" data-carousel-pills>
+            {% for ev in events %}
+            {% if ev.tags and "UC" in ev.tags %}
+            <button class="carousel-mobile-pill" data-carousel-pill>{{ ev.title }}</button>
+            {% endif %}
+            {% endfor %}
           </div>
         </div>
 
@@ -144,15 +154,13 @@ title: All Play No Work – Improvlore Marathon
         <h2 class="venue-name">Underline Center</h2>
         <p class="venue-address">Indiranagar, Bangalore</p>
         <a class="btn btn-ghost venue-map-btn" href="https://maps.app.goo.gl/tCm13hsE2Dn1TxCG9" target="_blank" rel="noopener noreferrer">Open in Maps ↗</a>
+        <a class="btn btn-ghost venue-map-btn" href="https://underline.center" target="_blank" rel="noopener noreferrer">Checkout Underline Center ↗</a>
       </div>
-      <div class="venue-map">
-        <iframe
-          src="https://maps.google.com/maps?q=Underline+Center,+Indiranagar,+Bangalore&t=&z=16&ie=UTF8&iwloc=&output=embed"
-          title="Underline Center on Google Maps"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen
-        ></iframe>
+      <div class="venue-map" id="venue-map">
+        <button class="venue-map-load" id="venue-map-load" aria-label="Load map">
+          <img src="https://underline.center/uploads/default/original/1X/fa3aa3aa7f1fa6a624fc878105340deb1881033e.png" alt="Underline Center" class="venue-map-preview">
+          <span class="venue-map-load-label">📍 Tap to load map</span>
+        </button>
       </div>
     </section>
 
@@ -199,29 +207,31 @@ title: All Play No Work – Improvlore Marathon
   var prevBtn = document.querySelector('[data-carousel-prev]');
   var nextBtn = document.querySelector('[data-carousel-next]');
   var sidebarItems = Array.prototype.slice.call(document.querySelectorAll('[data-carousel-sidebar-item]'));
+  var pillItems = Array.prototype.slice.call(document.querySelectorAll('[data-carousel-pill]'));
 
   var current = 0;
   var timer = null;
   var dots = [];
+  var resizeTimer = null;
 
-  // Set each card's pixel width equal to the wrapper so translateX works reliably
   function sizeCards() {
     var w = wrapper.offsetWidth;
     cards.forEach(function(card) { card.style.width = w + 'px'; });
   }
   sizeCards();
   window.addEventListener('resize', function() {
-    sizeCards();
-    // Re-apply transform without animation during resize
-    track.style.transition = 'none';
-    track.style.transform = 'translateX(-' + (current * wrapper.offsetWidth) + 'px)';
-    setTimeout(function() { track.style.transition = ''; }, 50);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      sizeCards();
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(-' + (current * wrapper.offsetWidth) + 'px)';
+      setTimeout(function() { track.style.transition = ''; }, 50);
+    }, 100);
   });
 
-  // Build dots
   for (var i = 0; i < total; i++) {
     var dot = document.createElement('button');
-    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.className = 'carousel-dot';
     dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
     (function(idx) {
       dot.addEventListener('click', function() { goTo(idx); });
@@ -230,31 +240,55 @@ title: All Play No Work – Improvlore Marathon
     dots.push(dot);
   }
 
-  if (sidebarItems.length) sidebarItems[0].classList.add('active');
+  var navGroups = [dots, sidebarItems, pillItems];
+
+  function setActive(idx) {
+    navGroups.forEach(function(group) {
+      group.forEach(function(el, i) { el.classList.toggle('active', i === idx); });
+    });
+  }
+
+  setActive(0);
 
   function goTo(n) {
     current = ((n % total) + total) % total;
     track.style.transform = 'translateX(-' + (current * wrapper.offsetWidth) + 'px)';
-    dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
-    sidebarItems.forEach(function(item, i) { item.classList.toggle('active', i === current); });
+    setActive(current);
     resetTimer();
   }
 
   function resetTimer() {
     clearInterval(timer);
-    timer = setInterval(function() { goTo(current + 1); }, 7000);
+    timer = setInterval(function() { goTo(current + 1); }, 12000);
   }
 
   if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); });
   if (nextBtn) nextBtn.addEventListener('click', function() { goTo(current + 1); });
 
-  sidebarItems.forEach(function(item, i) {
-    item.addEventListener('click', function() { goTo(i); });
+  [sidebarItems, pillItems].forEach(function(group) {
+    group.forEach(function(item, i) {
+      item.addEventListener('click', function() { goTo(i); });
+    });
   });
 
   wrapper.addEventListener('mouseenter', function() { clearInterval(timer); });
   wrapper.addEventListener('mouseleave', resetTimer);
 
   resetTimer();
+
+  // Lazy map
+  var mapBtn = document.getElementById('venue-map-load');
+  if (mapBtn) {
+    mapBtn.addEventListener('click', function () {
+      var mapEl = document.getElementById('venue-map');
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://maps.google.com/maps?q=Underline+Center,+Indiranagar,+Bangalore&t=&z=16&ie=UTF8&iwloc=&output=embed';
+      iframe.title = 'Underline Center on Google Maps';
+      iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+      iframe.setAttribute('allowfullscreen', '');
+      mapEl.innerHTML = '';
+      mapEl.appendChild(iframe);
+    });
+  }
 })();
 </script>

@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: All Work No Play - Individual Events
+title: All Play No Work – Lineup
 ---
 
 <div class="events-root">
@@ -8,18 +8,18 @@ title: All Work No Play - Individual Events
   <section class="site-part site-part-events" id="schedule">
     <section class="events-section-header">
       <p class="events-section-kicker">Lineup</p>
-      <h1 class="events-section-title">Individual Events</h1>
+      <h1 class="events-section-title">Full Schedule</h1>
     </section>
 
     <div class="format-explainer">
       <div class="format-card">
         <p class="format-label">Show</p>
-        <p class="format-desc">Our improvisors take the stage and build scenes, stories, and characters live; All shaped by suggestions from the audience.(i.e you!)</p>
+        <p class="format-desc">Improvisors on stage, scenes built live from your suggestions.</p>
       </div>
       <div class="format-vs" aria-hidden="true">V/S</div>
       <div class="format-card">
         <p class="format-label">Jam</p>
-        <p class="format-desc">We open the floor for everyone! come curious, learn what improv is about, and try it out yourself in a warm, no-audience space.</p>
+        <p class="format-desc">Floor open to all — come curious, leave having played.</p>
       </div>
     </div>
 
@@ -62,8 +62,8 @@ title: All Work No Play - Individual Events
           {% endif %}
 
           <div class="event-buttons">
-            <a class="btn btn-primary" href="{{ ev.url }}" target="_blank">Buy Ticket</a>
-            <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank">Learn More</a>
+            <a class="btn btn-primary" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Buy Ticket{% if ev.price %} ({{ ev.price }}){% endif %}</a>
+            <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">Learn More</a>
           </div>
 
         </div>

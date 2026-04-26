@@ -10,6 +10,22 @@ function getFormat(title) {
   return JAM_TITLES.some(jam => lower.includes(jam)) ? "Jam" : "Show";
 }
 
+async function fetchTicketPrice(url) {
+  if (!url || !url.includes('district.in')) return null;
+  try {
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36' }
+    });
+    const html = await res.text();
+    const matches = html.match(/₹(\d[\d,]*)/g);
+    if (!matches) return null;
+    const nums = matches.map(m => parseInt(m.replace(/[₹,]/g, '')));
+    return '₹' + Math.min(...nums);
+  } catch {
+    return null;
+  }
+}
+
 export async function transformCalendar(rawData) {
 
   function cleanExcerpt(str) {
@@ -66,6 +82,8 @@ export async function transformCalendar(rawData) {
     const detail_url = `https://underline.center/t/${slug}/${topic_id}.json`;
     const detail = await (await fetch(detail_url)).json();
     const first_post = detail.post_stream.posts[0];
+    const ticketUrl = first_post.event?.url;
+    const price = await fetchTicketPrice(ticketUrl);
 
     data_improv.push({
       title: topic.title,
@@ -80,7 +98,8 @@ export async function transformCalendar(rawData) {
       time: toISTTime(topic.event_starts_at),
       featured_link: topic.featured_link,
       slug,
-      url: first_post.event.url,
+      url: ticketUrl,
+      price,
       learn_more: `https://underline.center/t/${slug}/${topic_id}`,
       venue: "Underline Center, Indiranagar",
       tags: "UC"

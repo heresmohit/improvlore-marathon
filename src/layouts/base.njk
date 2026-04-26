@@ -13,16 +13,14 @@
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="A 12-hour improv marathon by Improvlore — packed with shows and jams. Watch from the front row or jump in and play. 1st May 2026, Underline Center, Bangalore.">
   <meta property="og:url" content="https://marathon.improvlore.com/">
-  <meta property="og:image" content="https://marathon.improvlore.com/assets/poster-l.png">
-  <meta property="og:image:width" content="1921">
-  <meta property="og:image:height" content="1081">
+  <meta property="og:image" content="https://marathon.improvlore.com/assets/apnw-c.png">
   <meta property="og:image:alt" content="All Play No Work — 12-Hour Improv Marathon by Improvlore, 1st May 2026">
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ title }}">
   <meta name="twitter:description" content="A 12-hour improv marathon by Improvlore — packed with shows and jams. Watch from the front row or jump in and play. 1st May 2026, Underline Center, Bangalore.">
-  <meta name="twitter:image" content="https://marathon.improvlore.com/assets/poster-l.png">
+  <meta name="twitter:image" content="https://marathon.improvlore.com/assets/apnw-c.png">
   <meta name="twitter:image:alt" content="All Play No Work — 12-Hour Improv Marathon by Improvlore, 1st May 2026">
 
   <!-- Favicon -->
@@ -37,9 +35,16 @@
 </head>
 
 <body>
-   
 
-</div>
+  <header class="site-header">
+    <a class="site-header-brand" href="/">All Play No Work</a>
+    <nav class="site-header-nav">
+      <a href="/" class="site-header-link">Home</a>
+      <a href="/events/" class="site-header-link">Lineup</a>
+      <a class="site-header-cta btn btn-primary" href="https://pages.razorpay.com/improvathon" target="_blank" rel="noopener noreferrer">Buy Day Pass</a>
+    </nav>
+  </header>
+
   <main>
       {{ content | safe }}
   </main>
@@ -47,26 +52,37 @@
 
 
   <footer>
-    <details class="social-fab">
-      <summary class="social-fab-toggle" aria-label="Open social links">
-        <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
-      </summary>
-      <div class="social-fab-menu">
-        <a class="social-icon" href="{{ social.whatsapp }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-          <img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp">
-        </a>
-        <a class="social-icon" href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
-        </a>
-        <a class="social-icon" href="{{ social.youtube }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube">
-        </a>
-        <a class="social-icon" href="{{ social.gmail }}" target="_blank" rel="noopener noreferrer" aria-label="Email">
-          <img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Email">
-        </a>
-      </div>
-    </details>
+    <div class="social-fab-wrapper">
+      <div class="social-fab-nudge" aria-hidden="true">Join our community</div>
+      <a class="social-fab-toggle" aria-label="WhatsApp" id="social-fab-btn" href="{{ social.whatsapp }}" target="_blank" rel="noopener noreferrer">
+        <img id="social-fab-icon" src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp">
+      </a>
+    </div>
   </footer>
+  <script>
+  (function () {
+    var platforms = [
+      { href: "{{ social.whatsapp }}", icon: "https://cdn.simpleicons.org/whatsapp/ffffff", label: "WhatsApp" },
+      { href: "{{ social.instagram }}", icon: "https://cdn.simpleicons.org/instagram/ffffff", label: "Instagram" }
+    ];
+    var current = 0;
+    var btn = document.getElementById('social-fab-btn');
+    var icon = document.getElementById('social-fab-icon');
+
+    btn.addEventListener('click', function () {
+      current = (current + 1) % platforms.length;
+      var next = platforms[current];
+      btn.href = next.href;
+      icon.style.opacity = '0';
+      setTimeout(function () {
+        icon.src = next.icon;
+        icon.alt = next.label;
+        btn.setAttribute('aria-label', next.label);
+        icon.style.opacity = '1';
+      }, 150);
+    });
+  })();
+  </script>
 
    <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
