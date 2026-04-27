@@ -1,13 +1,17 @@
-const JAM_TITLES = [
-  "make friends with the stage",
-  "whimsical wednesday",
-  "make an improv song:",
-  "what is yes, and",
-];
+import { readFileSync } from "fs";
+
+const config = JSON.parse(readFileSync(new URL("../event-config.json", import.meta.url), "utf8"));
 
 function getFormat(title) {
   const lower = title.toLowerCase();
-  return JAM_TITLES.some(jam => lower.includes(jam)) ? "Jam" : "Show";
+  return config.jamTitles.some(jam => lower.includes(jam)) ? "Jam" : "Show";
+}
+
+function getBadges(title) {
+  const lower = title.toLowerCase();
+  return Object.entries(config.badges)
+    .filter(([, titles]) => titles.some(t => lower.includes(t.toLowerCase())))
+    .map(([badge]) => badge);
 }
 
 async function fetchTicketPrice(url) {
@@ -43,8 +47,8 @@ export async function transformCalendar(rawData) {
       .replace(/&ndash;/g, "–")
       .replace(/&lsquo;|&#8216;/g, "'")
       .replace(/&rsquo;|&#8217;/g, "'")
-      .replace(/&ldquo;|&#8220;/g, '“')
-      .replace(/&rdquo;|&#8221;/g, '”')
+      .replace(/&ldquo;|&#8220;/g, '"')
+      .replace(/&rdquo;|&#8221;/g, '"')
       .trim();
   }
 
@@ -65,7 +69,7 @@ export async function transformCalendar(rawData) {
 
   function toIST(timestr) {
     if (!timestr) return null;
-    const utc = new Date(timestr); // ← remove the " UTC" append
+    const utc = new Date(timestr);
     return utc.toLocaleString("en-CA", {
       timeZone: "Asia/Kolkata",
       hour12: false
@@ -107,6 +111,7 @@ export async function transformCalendar(rawData) {
       excerpt: cleanExcerpt(topic.excerpt),
       first_para,
       format: getFormat(topic.title),
+      badges: getBadges(topic.title),
       full_content: first_post.cooked,
       image_url: topic.image_url,
       thumbnails: topic.thumbnails,

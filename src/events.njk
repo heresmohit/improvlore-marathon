@@ -55,7 +55,10 @@ title: All Play No Work – Schedule
           </div>
           {% endif %}
 
-          {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
+          <div class="event-pills">
+            {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
+            {% if ev.badges %}{% for badge in ev.badges %}<span class="format-pill format-pill--badge">{{ badge }}</span>{% endfor %}{% endif %}
+          </div>
           <h2 class="event-title">{{ ev.title }}</h2>
           {% set desc = ev.excerpt or ev.description %}
           {% set full = ev.first_para or desc %}

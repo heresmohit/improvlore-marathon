@@ -101,7 +101,10 @@ title: All Play No Work – Improvlore Marathon
               {% endif %}
               <div class="carousel-card-body">
                 <div class="carousel-card-meta">
-                  {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
+                  <div class="event-pills">
+                    {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
+                    {% if ev.badges %}{% for badge in ev.badges %}<span class="format-pill format-pill--badge">{{ badge }}</span>{% endfor %}{% endif %}
+                  </div>
                   <span class="carousel-card-price">{% if ev.format == "Jam" %}Included in Jam Pass{% else %}Included in Show Pass{% endif %}</span>
                 </div>
                 <h3 class="carousel-card-title">{{ ev.title }}</h3>

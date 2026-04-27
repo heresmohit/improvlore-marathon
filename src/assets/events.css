@@ -1241,7 +1241,6 @@ body::after {
   line-height: 1;
   padding: 0.25rem 0.65rem;
   clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  margin-bottom: 0.45rem;
 }
 
 .format-pill--show {
@@ -1252,6 +1251,18 @@ body::after {
 .format-pill--jam {
   background: var(--primary-cyan);
   color: #05293a;
+}
+
+.format-pill--badge {
+  background: var(--primary-red);
+  color: #fff;
+}
+
+.event-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
 }
 
 .carousel-card-time {
