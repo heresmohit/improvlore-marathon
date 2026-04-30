@@ -6,71 +6,7 @@ title: All Play No Work – Improvlore Marathon
 <div class="events-root">
   <section class="site-part site-part-intro">
 
-    {# 1. COUNTDOWN #}
-    <section class="countdown" aria-label="Countdown to event">
-      <div class="countdown-meta">
-        <span>1st May 2026</span>
-        <span class="countdown-meta-sep">·</span>
-        <span>All Day</span>
-        <span class="countdown-meta-sep">·</span>
-        <span>Starting at 12 Noon</span>
-      </div>
-      <div class="countdown-grid" data-countdown data-target="2026-05-01T12:00:00+05:30">
-        <article class="countdown-item">
-          <p class="countdown-value" data-days>--</p>
-          <p class="countdown-unit">Days</p>
-        </article>
-        <article class="countdown-item">
-          <p class="countdown-value" data-hours>--</p>
-          <p class="countdown-unit">Hours</p>
-        </article>
-        <article class="countdown-item">
-          <p class="countdown-value" data-minutes>--</p>
-          <p class="countdown-unit">Minutes</p>
-        </article>
-        <article class="countdown-item">
-          <p class="countdown-value" data-seconds>--</p>
-          <p class="countdown-unit">Seconds</p>
-        </article>
-      </div>
-    </section>
-
-    {# 2 + 3. POSTER and MARATHON INFO — side by side on desktop #}
-    <div class="poster-hero-split">
-
-      <section class="feature-poster" aria-label="All Play No Work Poster">
-        <img src="/assets/apnw-c.png" alt="All Play No Work event poster">
-      </section>
-
-      <section class="hero" aria-label="About the marathon">
-        <p class="hero-kicker">1 May 2026 · Bangalore</p>
-        <h1 class="hero-title">All Play No Work</h1>
-        <p class="hero-subtitle">
-          An all-day improv festival. Step away from everything that feels like work and into something playful.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="https://pages.razorpay.com/improvathon" target="_blank" rel="noopener noreferrer">Buy Day Pass</a>
-          <a class="btn btn-ghost" href="https://underline.center/t/all-play-no-work-12-hour-improv-marathon-by-improv-lore/764" target="_blank" rel="noopener noreferrer">Read details about the festival</a>
-        </div>
-      </section>
-
-    </div>
-
-    {# 4. NEW TO IMPROV + IMPROVLORE — combined #}
-    <section class="about-improvlore" aria-label="About Improvlore and newcomers">
-      <p class="about-copy">
-        <strong>Improvlore</strong> is a Bangalore-based improv troupe — home to weekly jams, workshops, and unscripted shows.
-      </p>
-      <p class="newcomer-callout">
-        Never watched improv before? You'll fit right in. Shows are audience-shaped; jams are open to anyone who wants to try.
-      </p>
-      <div class="about-links">
-        <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Follow us on Instagram</a>
-        <a href="mailto:improvlore@gmail.com">Write to us</a>
-      </div>
-    </section>
-
-    {# 5. EVENTS CAROUSEL #}
+    {# 1. EVENTS CAROUSEL #}
     <section class="carousel-section" aria-label="Event schedule preview">
       <div class="carousel-header">
         <div>
@@ -91,24 +27,25 @@ title: All Play No Work – Improvlore Marathon
               {% set img = ev.image_url %}
             {% endif %}
             <article class="carousel-card">
-              {% if img %}
-              <div class="carousel-card-image">
-                <a href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">
-                  <img src="{{ img }}" alt="{{ ev.title }}" loading="lazy">
-                </a>
-                {% if ev.time %}<p class="carousel-card-time">{{ ev.time }}</p>{% endif %}
-              </div>
-              {% endif %}
-              <div class="carousel-card-body">
-                <div class="carousel-card-meta">
-                  <div class="event-pills">
-                    {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
-                    {% if ev.badges %}{% for badge in ev.badges %}<span class="format-pill format-pill--badge">{{ badge }}</span>{% endfor %}{% endif %}
-                  </div>
-                  <span class="carousel-card-price">{% if ev.format == "Jam" %}Included in Jam Pass{% else %}Included in Show Pass{% endif %}</span>
+              <div class="carousel-card-main">
+                {% if img %}
+                <div class="carousel-card-image">
+                  <a href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ img }}" alt="{{ ev.title }}" loading="lazy">
+                  </a>
                 </div>
-                <h3 class="carousel-card-title">{{ ev.title }}</h3>
-                {% if ev.excerpt %}<p class="carousel-card-excerpt">{{ ev.excerpt }}</p>{% endif %}
+                {% endif %}
+                <div class="carousel-card-text">
+                  <h3 class="carousel-card-title">{{ ev.title }}</h3>
+                  {% if ev.excerpt %}<p class="carousel-card-excerpt">{{ ev.excerpt }}</p>{% endif %}
+                </div>
+              </div>
+              <div class="carousel-card-body">
+                {% if ev.time %}<p class="carousel-card-time">{{ ev.time }}</p>{% endif %}
+                <div class="event-pills">
+                  {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
+                  {% if ev.badges %}{% for badge in ev.badges %}<span class="format-pill format-pill--badge">{{ badge }}</span>{% endfor %}{% endif %}
+                </div>
                 <div class="event-buttons">
                   <a class="btn btn-primary" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Buy Ticket{% if ev.price %} ({{ ev.price }}){% endif %}</a>
                   <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">Learn More</a>
@@ -152,7 +89,41 @@ title: All Play No Work – Improvlore Marathon
       </div>
     </section>
 
-    {# 6. VENUE + MAP #}
+    {# 2. POSTER and MARATHON INFO — side by side on desktop #}
+    <div class="poster-hero-split">
+
+      <section class="feature-poster" aria-label="All Play No Work Poster">
+        <img src="/assets/apnw-c.png" alt="All Play No Work event poster">
+      </section>
+
+      <section class="hero" aria-label="About the marathon">
+        <p class="hero-kicker">1 May 2026 · Bangalore</p>
+        <h1 class="hero-title">All Play No Work</h1>
+        <p class="hero-subtitle">
+          An all-day improv festival. Step away from everything that feels like work and into something playful.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-ghost" href="https://underline.center/t/all-play-no-work-12-hour-improv-marathon-by-improv-lore/764" target="_blank" rel="noopener noreferrer">Read details about the festival</a>
+        </div>
+      </section>
+
+    </div>
+
+    {# 3. NEW TO IMPROV + IMPROVLORE — combined #}
+    <section class="about-improvlore" aria-label="About Improvlore and newcomers">
+      <p class="about-copy">
+        <strong>Improvlore</strong> is a Bangalore-based improv troupe — home to weekly jams, workshops, and unscripted shows.
+      </p>
+      <p class="newcomer-callout">
+        Never watched improv before? You'll fit right in. Shows are audience-shaped; jams are open to anyone who wants to try.
+      </p>
+      <div class="about-links">
+        <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Follow us on Instagram</a>
+        <a href="mailto:improvlore@gmail.com">Write to us</a>
+      </div>
+    </section>
+
+    {# 4. VENUE + MAP #}
     <section class="venue-section" aria-label="Venue info">
       <div class="venue-info">
         <p class="section-kicker">Venue</p>
@@ -174,31 +145,6 @@ title: All Play No Work – Improvlore Marathon
 
 <script>
 (function () {
-  // Countdown
-  var countdownRoot = document.querySelector('[data-countdown]');
-  if (countdownRoot) {
-    var target = new Date(countdownRoot.getAttribute('data-target'));
-    var daysEl = countdownRoot.querySelector('[data-days]');
-    var hoursEl = countdownRoot.querySelector('[data-hours]');
-    var minutesEl = countdownRoot.querySelector('[data-minutes]');
-    var secondsEl = countdownRoot.querySelector('[data-seconds]');
-    function pad(n) { return String(n).padStart(2, '0'); }
-    function tick() {
-      var diff = target - Date.now();
-      if (diff <= 0) {
-        [daysEl, hoursEl, minutesEl, secondsEl].forEach(function(el) { el.textContent = '00'; });
-        return;
-      }
-      var s = Math.floor(diff / 1000);
-      daysEl.textContent = pad(Math.floor(s / 86400));
-      hoursEl.textContent = pad(Math.floor((s % 86400) / 3600));
-      minutesEl.textContent = pad(Math.floor((s % 3600) / 60));
-      secondsEl.textContent = pad(s % 60);
-    }
-    tick();
-    setInterval(tick, 1000);
-  }
-
   // Carousel
   var wrapper = document.querySelector('.carousel-track-wrapper');
   var track = document.querySelector('[data-carousel]');

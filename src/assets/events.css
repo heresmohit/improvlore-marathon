@@ -1205,21 +1205,26 @@ body::after {
   border: 1px solid rgba(83, 184, 221, 0.28);
   clip-path: polygon(0% 0%, calc(100% - 14px) 0%, 100% 14px, 100% 100%, 0% 100%);
   overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  min-height: 300px;
+}
+
+.carousel-card-main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .carousel-card-image {
-  width: 100%;
   background: rgba(5, 38, 54, 0.85);
   overflow: hidden;
   cursor: pointer;
-  position: relative;
 }
 
 .carousel-card-image img {
   width: 100%;
-  max-height: 300px;
   height: auto;
-  object-fit: contain;
   display: block;
 }
 
@@ -1228,7 +1233,12 @@ body::after {
 }
 
 .carousel-card-body {
-  padding: 0.85rem;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.6rem;
+  border-left: 1px solid rgba(83, 184, 221, 0.15);
 }
 
 /* Format pills — parallelogram */
@@ -1266,26 +1276,28 @@ body::after {
 }
 
 .carousel-card-time {
-  position: absolute;
-  top: -1px;
-  right: 0px;
   margin: 0;
-  font-size: 0.9rem;
-  font-weight: 900;
-  letter-spacing: 0.5px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.06em;
   line-height: 1;
   color: #fff;
   background: var(--primary-red);
   display: inline-block;
-  padding: 0.3rem 0.7rem;
-  /* time badge — trapezoid leaning left */
-  clip-path: polygon(10px 0%, 100% 0%, 100% 100%, 0% 100%);
+  padding: 0.35rem 0.8rem;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
   white-space: nowrap;
-  z-index: 2;
+  align-self: flex-start;
+}
+
+.carousel-card-text {
+  padding: 0.7rem 0.85rem;
+  border-top: 1px solid rgba(83, 184, 221, 0.15);
 }
 
 .carousel-card-title {
-  margin: 0 0 0.4rem;
+  margin: 0;
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-light);
@@ -1293,15 +1305,10 @@ body::after {
 }
 
 .carousel-card-excerpt {
-  margin: 0 0 0.65rem;
+  margin: 0.4rem 0 0;
   color: var(--text-muted);
   font-size: 0.86rem;
   line-height: 1.45;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .carousel-controls {
@@ -1464,6 +1471,20 @@ body::after {
   .carousel-sidebar {
     display: none;
   }
+
+  .carousel-card {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+
+  .carousel-card-main {
+    min-height: 220px;
+  }
+
+  .carousel-card-body {
+    border-left: none;
+    border-top: 1px solid rgba(83, 184, 221, 0.15);
+  }
 }
 
 /* -------------------------------------------------
@@ -1512,8 +1533,9 @@ body::after {
     margin-right: auto;
   }
 
-  .carousel-card-image img {
-    max-height: 380px;
+  .carousel-card {
+    min-height: 360px;
+    grid-template-columns: 1fr 220px;
   }
 
   .venue-map iframe {
@@ -1651,10 +1673,9 @@ body::after {
 .carousel-card-meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.3rem;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0;
 }
 
 .carousel-card-price {
