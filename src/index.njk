@@ -6,7 +6,71 @@ title: All Play No Work – Improvlore Marathon
 <div class="events-root">
   <section class="site-part site-part-intro">
 
-    {# 1. EVENTS CAROUSEL #}
+    {# 1. COUNTDOWN #}
+    <section class="countdown" aria-label="Countdown to event">
+      <div class="countdown-meta">
+        <span>1st May 2026</span>
+        <span class="countdown-meta-sep">·</span>
+        <span>All Day</span>
+        <span class="countdown-meta-sep">·</span>
+        <span>Starting at 12 Noon</span>
+      </div>
+      <div class="countdown-grid" data-countdown data-target="2026-05-01T12:00:00+05:30">
+        <article class="countdown-item">
+          <p class="countdown-value" data-days>--</p>
+          <p class="countdown-unit">Days</p>
+        </article>
+        <article class="countdown-item">
+          <p class="countdown-value" data-hours>--</p>
+          <p class="countdown-unit">Hours</p>
+        </article>
+        <article class="countdown-item">
+          <p class="countdown-value" data-minutes>--</p>
+          <p class="countdown-unit">Minutes</p>
+        </article>
+        <article class="countdown-item">
+          <p class="countdown-value" data-seconds>--</p>
+          <p class="countdown-unit">Seconds</p>
+        </article>
+      </div>
+    </section>
+
+    {# 2 + 3. POSTER and MARATHON INFO — side by side on desktop #}
+    <div class="poster-hero-split">
+
+      <section class="feature-poster" aria-label="All Play No Work Poster">
+        <img src="/assets/apnw-c.png" alt="All Play No Work event poster">
+      </section>
+
+      <section class="hero" aria-label="About the marathon">
+        <p class="hero-kicker">1 May 2026 · Bangalore</p>
+        <h1 class="hero-title">All Play No Work</h1>
+        <p class="hero-subtitle">
+          An all-day improv festival. Step away from everything that feels like work and into something playful.
+        </p>
+        <div class="hero-actions">
+          <span class="btn btn-primary btn-sold-out" aria-disabled="true">Day Pass — Sold Out</span>
+          <a class="btn btn-ghost" href="https://underline.center/t/all-play-no-work-12-hour-improv-marathon-by-improv-lore/764" target="_blank" rel="noopener noreferrer">Read details about the festival</a>
+        </div>
+      </section>
+
+    </div>
+
+    {# 4. NEW TO IMPROV + IMPROVLORE — combined #}
+    <section class="about-improvlore" aria-label="About Improvlore and newcomers">
+      <p class="about-copy">
+        <strong>Improvlore</strong> is a Bangalore-based improv troupe — home to weekly jams, workshops, and unscripted shows.
+      </p>
+      <p class="newcomer-callout">
+        Never watched improv before? You'll fit right in. Shows are audience-shaped; jams are open to anyone who wants to try.
+      </p>
+      <div class="about-links">
+        <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Follow us on Instagram</a>
+        <a href="mailto:improvlore@gmail.com">Write to us</a>
+      </div>
+    </section>
+
+    {# 5. EVENTS CAROUSEL #}
     <section class="carousel-section" aria-label="Event schedule preview">
       <div class="carousel-header">
         <div>
@@ -89,41 +153,26 @@ title: All Play No Work – Improvlore Marathon
       </div>
     </section>
 
-    {# 2. POSTER and MARATHON INFO — side by side on desktop #}
-    <div class="poster-hero-split">
-
-      <section class="feature-poster" aria-label="All Play No Work Poster">
-        <img src="/assets/apnw-c.png" alt="All Play No Work event poster">
-      </section>
-
-      <section class="hero" aria-label="About the marathon">
-        <p class="hero-kicker">1 May 2026 · Bangalore</p>
-        <h1 class="hero-title">All Play No Work</h1>
-        <p class="hero-subtitle">
-          An all-day improv festival. Step away from everything that feels like work and into something playful.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-ghost" href="https://underline.center/t/all-play-no-work-12-hour-improv-marathon-by-improv-lore/764" target="_blank" rel="noopener noreferrer">Read details about the festival</a>
-        </div>
-      </section>
-
-    </div>
-
-    {# 3. NEW TO IMPROV + IMPROVLORE — combined #}
-    <section class="about-improvlore" aria-label="About Improvlore and newcomers">
-      <p class="about-copy">
-        <strong>Improvlore</strong> is a Bangalore-based improv troupe — home to weekly jams, workshops, and unscripted shows.
-      </p>
-      <p class="newcomer-callout">
-        Never watched improv before? You'll fit right in. Shows are audience-shaped; jams are open to anyone who wants to try.
-      </p>
-      <div class="about-links">
-        <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Follow us on Instagram</a>
-        <a href="mailto:improvlore@gmail.com">Write to us</a>
-      </div>
+    {# 6. SNACK PARTNERS #}
+    <section class="snack-partners-section" aria-label="Snack partners">
+      <p class="section-kicker">Treats All Day</p>
+      <ul class="snack-partners-list">
+        <li class="snack-partner">
+          <a class="snack-partner-name" href="https://www.instagram.com/drinkbamboobear" target="_blank" rel="noopener noreferrer">Bamboo Bear Soda</a>
+          <span class="snack-partner-desc">India's first ginger-bug based soda</span>
+        </li>
+        <li class="snack-partner">
+          <a class="snack-partner-name" href="https://www.instagram.com/bangalorecoffeeclub" target="_blank" rel="noopener noreferrer">Bangalore Coffee Club</a>
+          <span class="snack-partner-desc">Elevating your everyday cup</span>
+        </li>
+        <li class="snack-partner">
+          <a class="snack-partner-name" href="https://www.instagram.com/kulascheesecakes" target="_blank" rel="noopener noreferrer">Kula's Cheesecakes</a>
+          <span class="snack-partner-desc">Reliably sinful vanilla basque cheesecake</span>
+        </li>
+      </ul>
     </section>
 
-    {# 4. VENUE + MAP #}
+    {# 7. VENUE + MAP #}
     <section class="venue-section" aria-label="Venue info">
       <div class="venue-info">
         <p class="section-kicker">Venue</p>
