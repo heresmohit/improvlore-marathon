@@ -6,36 +6,53 @@ title: All Play No Work – Improvlore Marathon
 <div class="events-root">
   <section class="site-part site-part-intro">
 
-    {# 1. COUNTDOWN #}
-    <section class="countdown" aria-label="Countdown to event">
-      <div class="countdown-meta">
-        <span>1st May 2026</span>
-        <span class="countdown-meta-sep">·</span>
-        <span>All Day</span>
-        <span class="countdown-meta-sep">·</span>
-        <span>Starting at 12 Noon</span>
+    {# 0. HAPPENING NOW #}
+    <section class="happening-now" id="happening-now" aria-label="Happening now" aria-live="polite">
+      <p class="happening-now-kicker">Happening Now</p>
+      <div class="happening-now-body">
+        <h2 class="happening-now-title" id="happening-now-title">—</h2>
+        <p class="happening-now-time" id="happening-now-time"></p>
       </div>
-      <div class="countdown-grid" data-countdown data-target="2026-05-01T12:00:00+05:30">
-        <article class="countdown-item">
-          <p class="countdown-value" data-days>--</p>
-          <p class="countdown-unit">Days</p>
-        </article>
-        <article class="countdown-item">
-          <p class="countdown-value" data-hours>--</p>
-          <p class="countdown-unit">Hours</p>
-        </article>
-        <article class="countdown-item">
-          <p class="countdown-value" data-minutes>--</p>
-          <p class="countdown-unit">Minutes</p>
-        </article>
-        <article class="countdown-item">
-          <p class="countdown-value" data-seconds>--</p>
-          <p class="countdown-unit">Seconds</p>
-        </article>
-      </div>
+      <a class="btn btn-ghost happening-now-link" id="happening-now-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Learn More</a>
     </section>
 
-    {# 2 + 3. POSTER and MARATHON INFO — side by side on desktop #}
+    <script id="schedule-data" type="application/json">
+    [{% for ev in events %}{% if ev.tags and "UC" in ev.tags %}{"title":{{ ev.title | dump }},"time":{{ ev.time | dump }},"starts":{{ ev.event_starts_at | dump }},"ends":{{ ev.event_ends_at | dump }},"learn_more":{{ ev.learn_more | dump }},"url":{{ ev.url | dump }},"price":{{ ev.price | dump }}}{% if not loop.last %},{% endif %}{% endif %}{% endfor %}]
+    </script>
+
+    {# 1. DAY TIMELINE #}
+    <section class="timeline-section" aria-label="Full day schedule">
+      <div class="timeline-header">
+        <p class="section-kicker">Schedule</p>
+        <h2 class="timeline-title">All Day</h2>
+      </div>
+      <ol class="timeline" id="timeline">
+        {% for ev in events %}
+        {% if ev.tags and "UC" in ev.tags %}
+        <li class="timeline-item"
+            data-starts="{{ ev.event_starts_at }}"
+            data-ends="{{ ev.event_ends_at }}">
+          <div class="timeline-time">{{ ev.time }}</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-content-main">
+              <h3 class="timeline-event-title">{{ ev.title }}</h3>
+              {% if ev.format %}<div class="timeline-pills"><span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span></div>{% endif %}
+            </div>
+            <div class="timeline-actions">
+              {% if ev.url %}
+              <a class="btn btn-primary timeline-btn" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Tickets{% if ev.price %} · {{ ev.price }}{% endif %}</a>
+              {% endif %}
+              <a class="btn btn-ghost timeline-btn" href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">Details</a>
+            </div>
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ol>
+    </section>
+
+    {# 2. POSTER and MARATHON INFO — side by side on desktop #}
     <div class="poster-hero-split">
 
       <section class="feature-poster" aria-label="All Play No Work Poster">
@@ -56,7 +73,7 @@ title: All Play No Work – Improvlore Marathon
 
     </div>
 
-    {# 4. NEW TO IMPROV + IMPROVLORE — combined #}
+    {# 3. NEW TO IMPROV + IMPROVLORE — combined #}
     <section class="about-improvlore" aria-label="About Improvlore and newcomers">
       <p class="about-copy">
         <strong>Improvlore</strong> is a Bangalore-based improv troupe — home to weekly jams, workshops, and unscripted shows.
@@ -70,89 +87,7 @@ title: All Play No Work – Improvlore Marathon
       </div>
     </section>
 
-    {# 5. EVENTS CAROUSEL #}
-    <section class="carousel-section" aria-label="Event schedule preview">
-      <div class="carousel-header">
-        <div>
-          <p class="section-kicker">Schedule</p>
-          <h2 class="carousel-title">Event Schedule</h2>
-        </div>
-      </div>
-      <div class="carousel-layout">
-
-        <div class="carousel-track-wrapper">
-          <div class="carousel-track" data-carousel>
-            {% for ev in events %}
-            {% if ev.tags and "UC" in ev.tags %}
-            {% set img = null %}
-            {% if ev.thumbnails and ev.thumbnails.length %}
-              {% set img = ev.thumbnails[0].url %}
-            {% elif ev.image_url %}
-              {% set img = ev.image_url %}
-            {% endif %}
-            <article class="carousel-card">
-              {% if img %}
-              <div class="carousel-card-image">
-                <a href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">
-                  <img src="{{ img }}" alt="{{ ev.title }}" loading="lazy">
-                </a>
-                {% if ev.time %}<p class="carousel-card-time">{{ ev.time }}</p>{% endif %}
-              </div>
-              {% endif %}
-              <div class="carousel-card-body">
-                <div class="carousel-card-meta">
-                  <div class="event-pills">
-                    {% if ev.format %}<span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span>{% endif %}
-                    {% if ev.badges %}{% for badge in ev.badges %}<span class="format-pill format-pill--badge">{{ badge }}</span>{% endfor %}{% endif %}
-                  </div>
-                  <span class="carousel-card-price">{% if ev.format == "Jam" %}Included in Jam Pass{% else %}Included in Show Pass{% endif %}</span>
-                </div>
-                <h3 class="carousel-card-title">{{ ev.title }}</h3>
-                {% if ev.excerpt %}<p class="carousel-card-excerpt">{{ ev.excerpt }}</p>{% endif %}
-                <div class="event-buttons">
-                  <a class="btn btn-primary" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Buy Ticket{% if ev.price %} ({{ ev.price }}){% endif %}</a>
-                  <a class="btn btn-ghost" href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">Learn More</a>
-                </div>
-              </div>
-            </article>
-            {% endif %}
-            {% endfor %}
-          </div>
-          <div class="carousel-controls">
-            <button class="carousel-btn" data-carousel-prev aria-label="Previous event">&#8249;</button>
-            <div class="carousel-dots" data-carousel-dots></div>
-            <button class="carousel-btn" data-carousel-next aria-label="Next event">&#8250;</button>
-          </div>
-          <div class="carousel-mobile-pills" data-carousel-pills>
-            {% for ev in events %}
-            {% if ev.tags and "UC" in ev.tags %}
-            <button class="carousel-mobile-pill" data-carousel-pill>{{ ev.title }}</button>
-            {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-
-        <aside class="carousel-sidebar">
-          <p class="carousel-sidebar-title">All events</p>
-          <ul class="carousel-sidebar-list">
-            {% for ev in events %}
-            {% if ev.tags and "UC" in ev.tags %}
-            <li class="carousel-sidebar-item" data-carousel-sidebar-item>
-              {% if ev.time %}<div class="carousel-sidebar-item-time">{{ ev.time }}</div>{% endif %}
-              <div class="carousel-sidebar-item-name">{{ ev.title }}</div>
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
-        </aside>
-
-      </div>
-      <div class="carousel-lineup-cta">
-        <a class="btn btn-ghost" href="/events/">View full schedule &#8594;</a>
-      </div>
-    </section>
-
-    {# 6. SNACK PARTNERS #}
+    {# 4. SNACK PARTNERS #}
     <section class="snack-partners-section" aria-label="Snack partners">
       <p class="section-kicker">Treats All Day</p>
       <ul class="snack-partners-list">
@@ -171,7 +106,7 @@ title: All Play No Work – Improvlore Marathon
       </ul>
     </section>
 
-    {# 7. VENUE + MAP #}
+    {# 5. VENUE + MAP #}
     <section class="venue-section" aria-label="Venue info">
       <div class="venue-info">
         <p class="section-kicker">Venue</p>
@@ -193,123 +128,82 @@ title: All Play No Work – Improvlore Marathon
 
 <script>
 (function () {
-  // Countdown
-  var countdownRoot = document.querySelector('[data-countdown]');
-  if (countdownRoot) {
-    var target = new Date(countdownRoot.getAttribute('data-target'));
-    var daysEl = countdownRoot.querySelector('[data-days]');
-    var hoursEl = countdownRoot.querySelector('[data-hours]');
-    var minutesEl = countdownRoot.querySelector('[data-minutes]');
-    var secondsEl = countdownRoot.querySelector('[data-seconds]');
-    function pad(n) { return String(n).padStart(2, '0'); }
-    function tick() {
-      var diff = target - Date.now();
-      if (diff <= 0) {
-        [daysEl, hoursEl, minutesEl, secondsEl].forEach(function(el) { el.textContent = '00'; });
-        return;
+  var scheduleEl = document.getElementById('schedule-data');
+  var events = scheduleEl ? JSON.parse(scheduleEl.textContent) : [];
+  var GRACE_MS = 20 * 60 * 1000;
+
+  function parseIST(str) {
+    return new Date(str.replace(' ', 'T') + '+05:30');
+  }
+
+  function getStates(now) {
+    var current = null, next = null;
+    for (var i = 0; i < events.length; i++) {
+      var ev = events[i];
+      if (!ev.starts || !ev.ends) continue;
+      var start = parseIST(ev.starts);
+      var end = parseIST(ev.ends);
+      if (now >= start && now < new Date(end.getTime() + GRACE_MS)) {
+        current = ev; break;
       }
-      var s = Math.floor(diff / 1000);
-      daysEl.textContent = pad(Math.floor(s / 86400));
-      hoursEl.textContent = pad(Math.floor((s % 86400) / 3600));
-      minutesEl.textContent = pad(Math.floor((s % 3600) / 60));
-      secondsEl.textContent = pad(s % 60);
+      if (now < start && (!next || start < parseIST(next.starts))) next = ev;
     }
-    tick();
-    setInterval(tick, 1000);
+    return { current: current, next: next };
   }
 
-  // Carousel
-  var wrapper = document.querySelector('.carousel-track-wrapper');
-  var track = document.querySelector('[data-carousel]');
-  if (!wrapper || !track) return;
+  // Happening Now banner
+  (function () {
+    var section = document.getElementById('happening-now');
+    if (!section) return;
+    var titleEl = document.getElementById('happening-now-title');
+    var timeEl  = document.getElementById('happening-now-time');
+    var linkEl  = document.getElementById('happening-now-link');
 
-  var cards = Array.prototype.slice.call(track.querySelectorAll('.carousel-card'));
-  var total = cards.length;
-  if (!total) return;
+    function update() {
+      var s = getStates(new Date());
+      if (s.current) {
+        section.classList.remove('happening-now--upcoming');
+        section.classList.add('happening-now--live');
+        titleEl.textContent = s.current.title;
+        timeEl.textContent  = s.current.time || '';
+        linkEl.href = s.current.learn_more || '#';
+        linkEl.toggleAttribute('hidden', !s.current.learn_more);
+      } else if (s.next) {
+        section.classList.remove('happening-now--live');
+        section.classList.add('happening-now--upcoming');
+        titleEl.textContent = s.next.title;
+        timeEl.textContent  = 'Up next · ' + (s.next.time || '');
+        linkEl.href = s.next.learn_more || '#';
+        linkEl.toggleAttribute('hidden', !s.next.learn_more);
+      } else {
+        section.style.display = 'none';
+      }
+    }
+    update();
+    setInterval(update, 60000);
+  })();
 
-  var dotsContainer = document.querySelector('[data-carousel-dots]');
-  var prevBtn = document.querySelector('[data-carousel-prev]');
-  var nextBtn = document.querySelector('[data-carousel-next]');
-  var sidebarItems = Array.prototype.slice.call(document.querySelectorAll('[data-carousel-sidebar-item]'));
-  var pillItems = Array.prototype.slice.call(document.querySelectorAll('[data-carousel-pill]'));
+  // Timeline state classes
+  (function () {
+    var items = Array.prototype.slice.call(document.querySelectorAll('.timeline-item'));
+    if (!items.length) return;
 
-  var current = 0;
-  var timer = null;
-  var dots = [];
-  var resizeTimer = null;
-
-  function sizeCards() {
-    var w = wrapper.offsetWidth;
-    cards.forEach(function(card) { card.style.width = w + 'px'; });
-  }
-  sizeCards();
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
-      sizeCards();
-      track.style.transition = 'none';
-      track.style.transform = 'translateX(-' + (current * wrapper.offsetWidth) + 'px)';
-      setTimeout(function() { track.style.transition = ''; }, 50);
-    }, 100);
-  });
-
-  for (var i = 0; i < total; i++) {
-    var dot = document.createElement('button');
-    dot.className = 'carousel-dot';
-    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-    (function(idx) {
-      dot.addEventListener('click', function() { goTo(idx); });
-    })(i);
-    if (dotsContainer) dotsContainer.appendChild(dot);
-    dots.push(dot);
-  }
-
-  var navGroups = [dots, sidebarItems, pillItems];
-
-  function setActive(idx) {
-    navGroups.forEach(function(group) {
-      group.forEach(function(el, i) { el.classList.toggle('active', i === idx); });
-    });
-  }
-
-  setActive(0);
-
-  function goTo(n) {
-    current = ((n % total) + total) % total;
-    track.style.transform = 'translateX(-' + (current * wrapper.offsetWidth) + 'px)';
-    setActive(current);
-    resetTimer();
-  }
-
-  function resetTimer() {
-    clearInterval(timer);
-    timer = setInterval(function() { goTo(current + 1); }, 12000);
-  }
-
-  if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); });
-  if (nextBtn) nextBtn.addEventListener('click', function() { goTo(current + 1); });
-
-  [sidebarItems, pillItems].forEach(function(group) {
-    group.forEach(function(item, i) {
-      item.addEventListener('click', function() { goTo(i); });
-    });
-  });
-
-  wrapper.addEventListener('mouseenter', function() { clearInterval(timer); });
-  wrapper.addEventListener('mouseleave', resetTimer);
-
-  var touchStartX = 0;
-  wrapper.addEventListener('touchstart', function(e) {
-    touchStartX = e.touches[0].clientX;
-    clearInterval(timer);
-  }, { passive: true });
-  wrapper.addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
-    resetTimer();
-  }, { passive: true });
-
-  resetTimer();
+    function update() {
+      var now = new Date();
+      var s = getStates(now);
+      items.forEach(function (item) {
+        var start = parseIST(item.dataset.starts);
+        var end   = parseIST(item.dataset.ends);
+        var isLive = s.current && item.dataset.starts === s.current.starts;
+        var isDone = now >= new Date(end.getTime() + GRACE_MS);
+        item.classList.toggle('timeline-item--live', isLive);
+        item.classList.toggle('timeline-item--done', isDone && !isLive);
+        item.classList.toggle('timeline-item--upcoming', !isLive && !isDone);
+      });
+    }
+    update();
+    setInterval(update, 60000);
+  })();
 
   // Lazy map
   var mapBtn = document.getElementById('venue-map-load');
