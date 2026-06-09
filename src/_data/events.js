@@ -1,13 +1,12 @@
-import rawCalendar from "./rawCalendar.js";
-import { transformCalendar } from "../../scripts/transformCalendar.js";
-import fs from "fs";
-import fsPromises from 'fs/promises';
+import { readFile } from "fs/promises";
 
-
-export default async function() {
-  const transformed = await transformCalendar(await rawCalendar());
-  const rawCustom = await fsPromises.readFile('./custom.json',"utf8");
-  const customData = JSON.parse(rawCustom);
-  const finalData= transformed.concat(customData);
-  return finalData;
+// Render from the saved snapshot in events-history.json rather than fetching
+// the live calendar. The live endpoint only returns *upcoming* events, so once
+// the marathon is past, a fresh fetch would drop the whole lineup. The snapshot
+// holds the full, enriched history; regenerate it with:
+//   node scripts/reconstructHistory.js
+export default async function () {
+  const history = JSON.parse(await readFile("./events-history.json", "utf8"));
+  const customData = JSON.parse(await readFile("./custom.json", "utf8"));
+  return history.concat(customData);
 }
