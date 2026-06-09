@@ -6,53 +6,35 @@ title: All Play No Work – Improvlore Marathon
 <div class="events-root">
   <section class="site-part site-part-intro">
 
-    {# 0. HAPPENING NOW #}
-    <section class="happening-now" id="happening-now" aria-label="Happening now" aria-live="polite">
-      <p class="happening-now-kicker">Happening Now</p>
-      <div class="happening-now-body">
-        <h2 class="happening-now-title" id="happening-now-title">—</h2>
-        <p class="happening-now-time" id="happening-now-time"></p>
+    {# 1. STATUS BANNER — event has happened, returning soon #}
+    <section class="status-banner" aria-label="Event status">
+      <div class="status-banner-tags">
+        <span class="status-tag">Happened 1st May 2026</span>
+        <span class="status-tag status-tag--full">Full House</span>
+        <span class="status-tag status-tag--sold">Sold Out</span>
       </div>
-      <a class="btn btn-ghost happening-now-link" id="happening-now-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Learn More</a>
+      <p class="status-headline">Coming back soon.</p>
+      <dl class="status-stats">
+        <div class="status-stat">
+          <dd class="status-stat-value">200+</dd>
+          <dt class="status-stat-label">Tickets sold</dt>
+        </div>
+        <div class="status-stat">
+          <dd class="status-stat-value">50+</dd>
+          <dt class="status-stat-label">Jam participants</dt>
+        </div>
+        <div class="status-stat">
+          <dd class="status-stat-value">8</dd>
+          <dt class="status-stat-label">Shows &amp; jams</dt>
+        </div>
+        <div class="status-stat">
+          <dd class="status-stat-value">12</dd>
+          <dt class="status-stat-label">Hours, noon to midnight</dt>
+        </div>
+      </dl>
     </section>
 
-    <script id="schedule-data" type="application/json">
-    [{% for ev in events %}{% if ev.tags and "UC" in ev.tags %}{"title":{{ ev.title | dump }},"time":{{ ev.time | dump }},"starts":{{ ev.event_starts_at | dump }},"ends":{{ ev.event_ends_at | dump }},"learn_more":{{ ev.learn_more | dump }},"url":{{ ev.url | dump }},"price":{{ ev.price | dump }}}{% if not loop.last %},{% endif %}{% endif %}{% endfor %}]
-    </script>
-
-    {# 1. DAY TIMELINE #}
-    <section class="timeline-section" aria-label="Full day schedule">
-      <div class="timeline-header">
-        <p class="section-kicker">Schedule</p>
-        <h2 class="timeline-title">All Day</h2>
-      </div>
-      <ol class="timeline" id="timeline">
-        {% for ev in events %}
-        {% if ev.tags and "UC" in ev.tags %}
-        <li class="timeline-item"
-            data-starts="{{ ev.event_starts_at }}"
-            data-ends="{{ ev.event_ends_at }}">
-          <div class="timeline-time">{{ ev.time }}</div>
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <div class="timeline-content-main">
-              <h3 class="timeline-event-title">{{ ev.title }}</h3>
-              {% if ev.format %}<div class="timeline-pills"><span class="format-pill format-pill--{{ ev.format | lower }}">{{ ev.format }}</span></div>{% endif %}
-            </div>
-            <div class="timeline-actions">
-              {% if ev.url %}
-              <a class="btn btn-primary timeline-btn" href="{{ ev.url }}" target="_blank" rel="noopener noreferrer">Tickets{% if ev.price %} · {{ ev.price }}{% endif %}</a>
-              {% endif %}
-              <a class="btn btn-ghost timeline-btn" href="{{ ev.learn_more }}" target="_blank" rel="noopener noreferrer">Details</a>
-            </div>
-          </div>
-        </li>
-        {% endif %}
-        {% endfor %}
-      </ol>
-    </section>
-
-    {# 2. POSTER and MARATHON INFO — side by side on desktop #}
+    {# 2 + 3. POSTER and MARATHON INFO — side by side on desktop #}
     <div class="poster-hero-split">
 
       <section class="feature-poster" aria-label="All Play No Work Poster">
@@ -60,20 +42,33 @@ title: All Play No Work – Improvlore Marathon
       </section>
 
       <section class="hero" aria-label="About the marathon">
-        <p class="hero-kicker">1 May 2026 · Bangalore</p>
+        <p class="hero-kicker">All-Day Improv Festival · Bangalore</p>
         <h1 class="hero-title">All Play No Work</h1>
         <p class="hero-subtitle">
-          An all-day improv festival. Step away from everything that feels like work and into something playful.
+          An all-day improv festival by Improvlore. The first edition packed the house on 1st May 2026 — and we're bringing it back soon.
+        </p>
+        <p class="hero-subtitle">
+          In the meantime, head to <strong>improvlore.com</strong> for our current shows, jams, and workshops.
         </p>
         <div class="hero-actions">
-          <span class="btn btn-primary btn-sold-out" aria-disabled="true">Day Pass — Sold Out</span>
-          <a class="btn btn-ghost" href="https://underline.center/t/all-play-no-work-12-hour-improv-marathon-by-improv-lore/764" target="_blank" rel="noopener noreferrer">Read details about the festival</a>
+          <a class="btn btn-primary" href="https://improvlore.com" target="_blank" rel="noopener noreferrer">Visit improvlore.com →</a>
+          <a class="btn btn-ghost" href="/events/">View our previous schedule</a>
         </div>
       </section>
 
     </div>
 
-    {# 3. NEW TO IMPROV + IMPROVLORE — combined #}
+    {# SPONSOR CTA #}
+    <section class="sponsor-cta" aria-label="Sponsor the next edition">
+      <p class="section-kicker">Want to be part of the next one?</p>
+      <h2 class="sponsor-cta-title">Sponsor All Play No Work</h2>
+      <p class="sponsor-cta-copy">
+        A full day, a packed house, and a crowd that stayed till midnight. Put your brand in front of them — let's bring the next edition back together.
+      </p>
+      <a class="btn btn-sponsor" href="mailto:improvlore@gmail.com?subject=Sponsor%20All%20Play%20No%20Work">Sponsor Us →</a>
+    </section>
+
+    {# 4. NEW TO IMPROV + IMPROVLORE — combined #}
     <section class="about-improvlore" aria-label="About Improvlore and newcomers">
       <p class="about-copy">
         <strong>Improvlore</strong> is a Bangalore-based improv troupe — home to weekly jams, workshops, and unscripted shows.
@@ -82,142 +77,21 @@ title: All Play No Work – Improvlore Marathon
         Never watched improv before? You'll fit right in. Shows are audience-shaped; jams are open to anyone who wants to try.
       </p>
       <div class="about-links">
+        <a href="https://improvlore.com" target="_blank" rel="noopener noreferrer">See what's on at improvlore.com</a>
         <a href="{{ social.instagram }}" target="_blank" rel="noopener noreferrer">Follow us on Instagram</a>
         <a href="mailto:improvlore@gmail.com">Write to us</a>
       </div>
     </section>
 
-    {# 4. SNACK PARTNERS #}
-    <section class="snack-partners-section" aria-label="Snack partners">
-      <p class="section-kicker">Treats All Day</p>
-      <ul class="snack-partners-list">
-        <li class="snack-partner">
-          <a class="snack-partner-name" href="https://www.instagram.com/drinkbamboobear" target="_blank" rel="noopener noreferrer">Bamboo Bear Soda</a>
-          <span class="snack-partner-desc">India's first ginger-bug based soda</span>
-        </li>
-        <li class="snack-partner">
-          <a class="snack-partner-name" href="https://www.instagram.com/bangalorecoffeeclub" target="_blank" rel="noopener noreferrer">Bangalore Coffee Club</a>
-          <span class="snack-partner-desc">Elevating your everyday cup</span>
-        </li>
-        <li class="snack-partner">
-          <a class="snack-partner-name" href="https://www.instagram.com/kulascheesecakes" target="_blank" rel="noopener noreferrer">Kula's Cheesecakes</a>
-          <span class="snack-partner-desc">Reliably sinful vanilla basque cheesecake</span>
-        </li>
-      </ul>
-    </section>
-
-    {# 5. VENUE + MAP #}
-    <section class="venue-section" aria-label="Venue info">
-      <div class="venue-info">
-        <p class="section-kicker">Venue</p>
-        <h2 class="venue-name">Underline Center</h2>
-        <p class="venue-address">Indiranagar, Bangalore</p>
-        <a class="btn btn-ghost venue-map-btn" href="https://maps.app.goo.gl/tCm13hsE2Dn1TxCG9" target="_blank" rel="noopener noreferrer">Open in Maps ↗</a>
-        <a class="btn btn-ghost venue-map-btn" href="https://underline.center" target="_blank" rel="noopener noreferrer">Check out Underline Center ↗</a>
-      </div>
-      <div class="venue-map" id="venue-map">
-        <button class="venue-map-load" id="venue-map-load" aria-label="Load map">
-          <img src="https://underline.center/uploads/default/original/1X/fa3aa3aa7f1fa6a624fc878105340deb1881033e.png" alt="Underline Center" class="venue-map-preview">
-          <span class="venue-map-load-label">📍 Tap to load map</span>
-        </button>
-      </div>
+    {# 5. PREVIOUS EDITION CTA #}
+    <section class="prev-edition" aria-label="Previous edition">
+      <p class="section-kicker">First Edition</p>
+      <h2 class="prev-edition-title">A full day of shows &amp; jams at Underline Center, Indiranagar.</h2>
+      <p class="prev-edition-copy">
+        12+ acts, an open floor, and a packed house. Want to see what we got up to?
+      </p>
+      <a class="btn btn-ghost" href="/events/">View our previous schedule &#8594;</a>
     </section>
 
   </section>
 </div>
-
-<script>
-(function () {
-  var scheduleEl = document.getElementById('schedule-data');
-  var events = scheduleEl ? JSON.parse(scheduleEl.textContent) : [];
-  var GRACE_MS = 20 * 60 * 1000;
-
-  function parseIST(str) {
-    return new Date(str.replace(' ', 'T') + '+05:30');
-  }
-
-  function getStates(now) {
-    var current = null, next = null;
-    for (var i = 0; i < events.length; i++) {
-      var ev = events[i];
-      if (!ev.starts || !ev.ends) continue;
-      var start = parseIST(ev.starts);
-      var end = parseIST(ev.ends);
-      if (now >= start && now < new Date(end.getTime() + GRACE_MS)) {
-        current = ev; break;
-      }
-      if (now < start && (!next || start < parseIST(next.starts))) next = ev;
-    }
-    return { current: current, next: next };
-  }
-
-  // Happening Now banner
-  (function () {
-    var section = document.getElementById('happening-now');
-    if (!section) return;
-    var titleEl = document.getElementById('happening-now-title');
-    var timeEl  = document.getElementById('happening-now-time');
-    var linkEl  = document.getElementById('happening-now-link');
-
-    function update() {
-      var s = getStates(new Date());
-      if (s.current) {
-        section.classList.remove('happening-now--upcoming');
-        section.classList.add('happening-now--live');
-        titleEl.textContent = s.current.title;
-        timeEl.textContent  = s.current.time || '';
-        linkEl.href = s.current.learn_more || '#';
-        linkEl.toggleAttribute('hidden', !s.current.learn_more);
-      } else if (s.next) {
-        section.classList.remove('happening-now--live');
-        section.classList.add('happening-now--upcoming');
-        titleEl.textContent = s.next.title;
-        timeEl.textContent  = 'Up next · ' + (s.next.time || '');
-        linkEl.href = s.next.learn_more || '#';
-        linkEl.toggleAttribute('hidden', !s.next.learn_more);
-      } else {
-        section.style.display = 'none';
-      }
-    }
-    update();
-    setInterval(update, 60000);
-  })();
-
-  // Timeline state classes
-  (function () {
-    var items = Array.prototype.slice.call(document.querySelectorAll('.timeline-item'));
-    if (!items.length) return;
-
-    function update() {
-      var now = new Date();
-      var s = getStates(now);
-      items.forEach(function (item) {
-        var start = parseIST(item.dataset.starts);
-        var end   = parseIST(item.dataset.ends);
-        var isLive = s.current && item.dataset.starts === s.current.starts;
-        var isDone = now >= new Date(end.getTime() + GRACE_MS);
-        item.classList.toggle('timeline-item--live', isLive);
-        item.classList.toggle('timeline-item--done', isDone && !isLive);
-        item.classList.toggle('timeline-item--upcoming', !isLive && !isDone);
-      });
-    }
-    update();
-    setInterval(update, 60000);
-  })();
-
-  // Lazy map
-  var mapBtn = document.getElementById('venue-map-load');
-  if (mapBtn) {
-    mapBtn.addEventListener('click', function () {
-      var mapEl = document.getElementById('venue-map');
-      var iframe = document.createElement('iframe');
-      iframe.src = 'https://maps.google.com/maps?q=Underline+Center,+Indiranagar,+Bangalore&t=&z=16&ie=UTF8&iwloc=&output=embed';
-      iframe.title = 'Underline Center on Google Maps';
-      iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
-      iframe.setAttribute('allowfullscreen', '');
-      mapEl.innerHTML = '';
-      mapEl.appendChild(iframe);
-    });
-  }
-})();
-</script>
